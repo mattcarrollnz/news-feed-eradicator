@@ -3,13 +3,17 @@ import { type Site, siteId, regionId } from "../types/sitelist";
 export const site: Site = {
 			id: siteId('youtube'),
 			title: 'YouTube',
-			hosts: ['www.youtube.com', 'youtube.com'],
+			hosts: ['www.youtube.com', 'youtube.com', 'm.youtube.com'],
 			paths: ['/', '/gaming', '/podcasts'],
 			regions: [
 				{
 					id: regionId('feed'),
 					title: 'Main feed',
-					selectors: ['ytd-browse'],
+					selectors: [
+						'ytd-browse',
+						'ytm-browse .rich-grid-renderer-contents',
+						'ytm-browse ytm-chip-cloud-chip-renderer:not(.more-drawer)'
+					],
 					paths: 'inherit',
 					type: 'hide',
 					inject: {
@@ -22,14 +26,21 @@ export const site: Site = {
 					title: 'Shorts button',
 					type: 'remove',
 					paths: '*',
-					selectors: ['ytd-guide-entry-renderer:has(a[title="Shorts"])', 'ytd-mini-guide-entry-renderer:has(a[title="Shorts"])'],
+					selectors: [
+						'ytd-guide-entry-renderer:has(a[title="Shorts"])',
+						'ytd-mini-guide-entry-renderer:has(a[title="Shorts"])',
+						'ytm-pivot-bar-item-renderer:has(.pivot-shorts)'
+					],
 				},
 				{
 					id: regionId('explore-nav'),
 					title: 'Explore navigation menu',
 					type: 'remove',
 					paths: '*',
-					selectors: ['ytd-guide-section-renderer:nth-child(4)']
+					selectors: [
+						'ytd-guide-section-renderer:nth-child(4)',
+						'ytm-browse ytm-chip-cloud-chip-renderer.more-drawer'
+					]
 				},
 				{
 					id: regionId('end-screen-suggested'),
@@ -43,14 +54,22 @@ export const site: Site = {
 					title: 'Suggested videos sidebar',
 					type: 'hide',
 					paths: '*',
-					selectors: ['ytd-watch-next-secondary-results-renderer'],
+					selectors: [
+						'ytd-watch-next-secondary-results-renderer',
+						'ytm-single-column-watch-next-results-renderer .related-items-container',
+						'ytm-single-column-watch-next-results-renderer .chip-bar',
+						'ytm-single-column-watch-next-results-renderer .single-column-watch-next-modern-panels'
+					],
 				},
 				{
 					id: regionId('comments'),
 					title: 'Video comments',
 					type: 'hide',
 					paths: '*',
-					selectors: ['ytd-comments'],
+					selectors: [
+						'ytd-comments',
+						'yt-video-metadata-carousel-view-model[aria-label="Comments"]'
+					],
 					default: false,
 				},
 				{
@@ -76,7 +95,8 @@ export const site: Site = {
 					paths: '*',
 					selectors: [
 						'ytd-guide-section-renderer:nth-child(2)', 
-						'ytd-mini-guide-renderer:nth-child(2)'
+						'ytd-mini-guide-renderer:nth-child(2)',
+						'ytm-pivot-bar-item-renderer:has(.pivot-subs)'
 					],
 					default: false,
 				},
